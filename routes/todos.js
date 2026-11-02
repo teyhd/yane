@@ -3,30 +3,31 @@ const Todo = require('../models/Todo')
 const router = Router()
 
 /*router.get('/todos', async (req, res) => {  try {
-    const todos = await Todo.find({}).lean();    
+    const todos = await Todo.find({}).lean();
     res.status(200).json(todos);
-  } catch (error) {    
+  } catch (error) {
     console.error('Error fetching todos:', error);
     res.status(500).json({ message: 'Internal server error' });  }
 });*/
 router.get('/todos', async (req, res) => {
     const todos = await Todo.find({}).lean()
-  
+
     res.render('index', {
       title: 'Todos list',
       isIndex: true,
       todos
     })
   })
-/*router.get('/', async (req, res) => {
-  const todos = await Todo.find({})
+router.get('/', async (req, res) => {
+  const todos = await Todo.find({}).lean();
 
   res.render('index', {
     title: 'Todos list',
     isIndex: true,
-    todos
-  })
-})*/
+    todos,
+  });
+
+})
 
 router.get('/create', (req, res) => {
   res.render('create', {
@@ -36,6 +37,8 @@ router.get('/create', (req, res) => {
 })
 
 router.post('/create', async (req, res) => {
+  console.log(req.body);
+
   const todo = new Todo({
     title: req.body.title
   })
